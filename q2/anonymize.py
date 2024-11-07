@@ -1,3 +1,7 @@
+import re
+import nltk
+from nltk import pos_tag, word_tokenize
+
 def anonymize_names_parta(text: str):
     """
     Anonymizes names in the given text by replacing them with 'ANON'. Assume names are capitalized, and no other words are.
@@ -19,8 +23,9 @@ def anonymize_names_parta(text: str):
         str: The text with names anonymized.
     """
     # Replace all capitalized words with 'ANON' (a regular expression might be helpful; see the `re` module)
-    anonymized_text = "..."
+    anonymized_text = re.sub(r'\b[A-Z][a-z]*\b', 'ANON', text)
     return anonymized_text
+
  
 def anonymize_names_partb(text: str):
     """
@@ -34,8 +39,21 @@ def anonymize_names_partb(text: str):
     Returns:
         str: The text with names anonymized.
     """
-    # Placeholder implementation: This needs heuristics to identify names
-    anonymized_text = text  # This is where the logic will go
+    # Tokenize and tag parts of speech
+    words = word_tokenize(text)
+    pos_tags = pos_tag(words)
+
+    anonymized_words = []
+
+    for word, tag in pos_tags:
+        # Heuristic: Replace proper nouns (tagged 'NNP' or 'NNPS') with 'ANON'
+        if tag in ('NNP', 'NNPS'):
+            anonymized_words.append('ANON')
+        else:
+            anonymized_words.append(word)
+
+    # Join words back into a sentence
+    anonymized_text = ' '.join(anonymized_words)
     return anonymized_text
  
  

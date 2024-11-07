@@ -1,14 +1,43 @@
 <template>
-    <div>
-        <h1>Counter: <!-- Put counter here --></h1>
-        <button>Increment</button>
-        <button>Decrement</button>
-        <button>Reset</button>
-    </div>
+  <div>
+    <h1>Counter: {{ count }}</h1>
+    <button @click="increment">Increment</button>
+    <button @click="decrement">Decrement</button>
+    <button @click="reset">Reset</button>
+  </div>
 </template>
-
-<!-- Uncomment to use JavaScript instead of TypeScript. -->
-<!-- <script> -->
-<!-- If you'd like to use the options API, remove the 'setup' keyword. -->
 <script setup lang="ts">
+
+import { ref } from 'vue'
+
+// Define a reactive state for the count
+
+const count = ref(0)
+
+// Create functions to update the count
+
+const increment = () => {
+  count.value++
+}
+
+const decrement = () => {
+
+  // Prevent negative count
+  if (count.value > 0) count.value--  
+}
+
+const reset = () => {
+  count.value = 0
+}
+
 </script>
+
+<style scoped>
+
+
+button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+</style>
